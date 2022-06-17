@@ -35,6 +35,8 @@ app.post('/tweets', (req, res)=>{
     res.send("ok");
 })
 
-
+app.get('/tweets', (req, res)=>{
+    res.send(tweets);
+})
 
 app.listen(5000);
