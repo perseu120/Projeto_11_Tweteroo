@@ -5,19 +5,20 @@ const app = Express();
 app.use(cors());
 app.use(Express.json());
 
-const usuario = {
-	username: '', 
-	avatar: "" 
-}
-
+const usuarios = [];
 
 const tweets = [];
 
 app.post('/sign-up', (req, res)=>{
 
+    const usuario = {
+        username: '', 
+        avatar: "" 
+    }
     usuario.username = req.body.username;
     usuario.avatar = req.body.avatar;
 
+    usuarios.push(usuario);
     res.send("ok");
 })
 
@@ -30,8 +31,15 @@ app.post('/tweets', (req, res)=>{
     }
     tweet.username = req.body.username;
     tweet.tweet = req.body.tweet;
-    tweet.avatar = usuario.avatar;
-    tweets.push(tweet);
+    tweet.avatar = usuarios[usuarios.length-1].avatar;
+
+    if(tweets.length < 10){
+        tweets.push(tweet);     
+    }else{
+        tweets.shift();
+        tweets.push(tweet); 
+    }
+   
     res.send("ok");
 })
 
