@@ -29,15 +29,20 @@ app.post('/tweets', (req, res)=>{
         tweet: "",
         avatar: ""
     }
-    tweet.username = req.body.username;
-    tweet.tweet = req.body.tweet;
-    tweet.avatar = usuarios[usuarios.length-1].avatar;
+    
+    for(let i =0; i < usuarios.length; i++){
+        if(usuarios[i].username === req.body.username){
+            tweet.username = req.body.username;
+            tweet.tweet = req.body.tweet;
+            tweet.avatar = usuarios[i].avatar;
+        }
+    }
 
     if(tweets.length < 10){
-        tweets.push(tweet);     
+        tweets.unshift(tweet);     
     }else{
-        tweets.shift();
-        tweets.push(tweet); 
+        tweets.pop();
+        tweets.unshift(tweet); 
     }
    
     res.send("ok");
